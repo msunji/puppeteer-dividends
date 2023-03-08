@@ -1,11 +1,21 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer');
 
+const announcements = [];
+const announcement = {
+  'companyName': '',
+  'templateName': '',
+  'formNum': '',
+  'announcementUrl': '',
+  'announcementTime': '',
+  'circularNum': ''
+}
+
 // Puppeteer code starts here
 async function scrape() {
   // Init browser - we'll do headless: false for now
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     defaultViewport: null
   });
 
@@ -26,12 +36,16 @@ async function scrape() {
     await page.goto(process.env.PSE_NEWS, { waitUntil: 'networkidle2' });
 
     // Get results table text
-    const results = await page.waitForSelector('tbody');
-    console.log(results);
-    const table = await page.$$eval('tbody', tr => tr.map(tr => {
-      return tr.innerHTML;
-    }))
-    console.log('table', table);
+    await page.waitForSelector('tbody');
+
+    // Iterate through each table row and go through each td cell
+    const announcementData = await page.$$eval('tbody tr', rows => {
+      return rows.map(row => {
+        const cells = row.querySelectorAll('td'); // recall that querySelectorAll returns a nodelist NOT an array
+        return Array.from(cells, cell => cell.innerHTML);
+      });
+    })
+    console.log('table', announcementData);
     // await browser.close();
   } catch (err) {
     console.error(err);
