@@ -9,42 +9,33 @@ async function scrape() {
     defaultViewport: null
   });
 
-  const page = await browser.newPage();
-
-  // Abort requests for images on PSE Edge
-  await page.setRequestInterception(true);
-  page.on('request', req => {
-    if (req.resourceType() === 'image') {
-      req.abort();
-    } else {
-      req.continue();
-    }
-  })
-
-  // Go to PSE Edge Company Announcements page
-  // await page.setDefaultNavigationTimeout(0);
-  await page.goto(process.env.PSE_NEWS, { waitUntil: 'domcontentloaded' });
-
   try {
-    // Make search more specific - we're looking for dividend declarations
-    await page.$eval('input[id="tmplNm"]', templateInput => templateInput.value = "Declaration of Cash Dividends");
-    // Set fixed date
-    await page.$eval('input[name="fromDate"]', fromDate => fromDate.value = '03-01-2023');
-    await page.$eval('input[name="toDate"]', toDate => toDate.value = '03-01-2023');
+    const page = await browser.newPage();
 
-    // Click search button
-    await page.$eval('input[id="btnSearch"]', searchElem => searchElem.click());
+    // Abort requests for images on PSE Edge
+    await page.setRequestInterception(true);
+    page.on('request', req => {
+      if (req.resourceType() === 'image') {
+        req.abort();
+      } else {
+        req.continue();
+      }
+    })
+    // Go to search results for dividend announcements given set time
+    await page.setDefaultNavigationTimeout(0);
+    await page.goto(process.env.PSE_NEWS, { waitUntil: 'networkidle2' });
 
-    await page.waitForNavigation({ waitUntil: 'load' });
-    await page.waitForSelector('tbody');
-    const table = await page.$$eval('tbody tr', tr => tr.map(tr => {
+    // Get results table text
+    const results = await page.waitForSelector('tbody');
+    console.log(results);
+    const table = await page.$$eval('tbody', tr => tr.map(tr => {
       return tr.innerHTML;
     }))
     console.log('table', table);
     // await browser.close();
   } catch (err) {
     console.error(err);
-    // await browser.close();
+    await browser.close();
   }
 }
 
