@@ -8,23 +8,43 @@ async function scrape() {
     headless: false,
     defaultViewport: null
   });
+
   const page = await browser.newPage();
 
-  // Config nav timeout
-  // Failure to set this leads to timeout when loading PSE Edge
-  await page.setDefaultNavigationTimeout(0);
-  await page.goto(process.env.PSE_NEWS);
+  // Abort requests for images on PSE Edge
+  await page.setRequestInterception(true);
+  page.on('request', req => {
+    if (req.resourceType() === 'image') {
+      req.abort();
+    } else {
+      req.continue();
+    }
+  })
+
+  // Go to PSE Edge Company Announcements page
+  // await page.setDefaultNavigationTimeout(0);
+  await page.goto(process.env.PSE_NEWS, { waitUntil: 'domcontentloaded' });
 
   try {
+    // Make search more specific - we're looking for dividend declarations
     await page.$eval('input[id="tmplNm"]', templateInput => templateInput.value = "Declaration of Cash Dividends");
-    // set date limits
+    // Set fixed date
     await page.$eval('input[name="fromDate"]', fromDate => fromDate.value = '03-01-2023');
     await page.$eval('input[name="toDate"]', toDate => toDate.value = '03-01-2023');
+
+    // Click search button
     await page.$eval('input[id="btnSearch"]', searchElem => searchElem.click());
-    await page.waitForNavigation();
-    await page.$$eval()
+
+    await page.waitForNavigation({ waitUntil: 'load' });
+    await page.waitForSelector('tbody');
+    const table = await page.$$eval('tbody tr', tr => tr.map(tr => {
+      return tr.innerHTML;
+    }))
+    console.log('table', table);
+    // await browser.close();
   } catch (err) {
-    console.error(err)
+    console.error(err);
+    // await browser.close();
   }
 }
 
