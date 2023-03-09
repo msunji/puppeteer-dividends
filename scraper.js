@@ -28,17 +28,6 @@ async function scrape() {
     // Get results table text
     await page.waitForSelector('tbody');
 
-    const announcements = [];
-
-    // const announcement = {
-    //   'companyName': '',
-    //   'templateName': '',
-    //   'formNum': '',
-    //   'announcementUrl': '',
-    //   'announcementTime': '',
-    //   'circularNum': ''
-    // }
-
     // Iterate through each table row and go through each td cell
     const announcementData = await page.$$eval('tbody tr', rows => {
       return rows.map(row => {
@@ -52,7 +41,7 @@ async function scrape() {
         } else {
           for (let i = 0; i < cells.length; i++){
             rowData["companyName"] = cells[0].textContent;
-            rowData["viewerLink"] = cells[1].childNodes[0].getAttribute('onclick');
+            rowData["viewerLink"] = `https://edge.pse.com.ph/openDiscViewer.do?edge_no=${cells[1].childNodes[0].getAttribute('onclick').split("'")[1]}`;
             rowData["formNum"] = cells[2].textContent;
             rowData["announceDateTime"] = cells[3].textContent;
             rowData["circNum"] = cells[4].textContent;
