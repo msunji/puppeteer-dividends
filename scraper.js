@@ -1,16 +1,6 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer');
 
-const announcements = {};
-const announcement = {
-  'companyName': '',
-  'templateName': '',
-  'formNum': '',
-  'announcementUrl': '',
-  'announcementTime': '',
-  'circularNum': ''
-}
-
 // Puppeteer code starts here
 async function scrape() {
   // Init browser
@@ -38,32 +28,41 @@ async function scrape() {
     // Get results table text
     await page.waitForSelector('tbody');
 
+    const announcements = [];
+
+    // const announcement = {
+    //   'companyName': '',
+    //   'templateName': '',
+    //   'formNum': '',
+    //   'announcementUrl': '',
+    //   'announcementTime': '',
+    //   'circularNum': ''
+    // }
+
     // Iterate through each table row and go through each td cell
     const announcementData = await page.$$eval('tbody tr', rows => {
       return rows.map(row => {
         const cells = row.querySelectorAll('td'); // recall that querySelectorAll returns a nodelist NOT an array
 
+        const rowData = {};
+
         // If no announcements are made, there should only be one cell in one row
         if (cells.length === 1) {
           return 'No announcements today.';
         } else {
-          return Array.from(cells, cell => cell.innerHTML);
+          for (let i = 0; i < cells.length; i++){
+            rowData["companyName"] = cells[0].textContent;
+            rowData["viewerLink"] = cells[1].childNodes[0].getAttribute('onclick');
+            rowData["formNum"] = cells[2].textContent;
+            rowData["announceDateTime"] = cells[3].textContent;
+            rowData["circNum"] = cells[4].textContent;
+          }
+          return rowData;
         }
       });
     })
 
     console.log(announcementData);
-
-    // Check if any announcements were made
-    // if (announcementData[0].length === 1) {
-    //   console.log('No announcements today');
-    //   return;
-    //   // TO DO: this needs to be closed properly
-    // } else {
-    //   // Parse announcement data
-    //   // console.log('table', announcementData);
-
-    // }
 
     // Parse announcementData
     // console.log(announcementData[0][0].replace(/<\s*[^>]*>/gi, ''));
