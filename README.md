@@ -7,12 +7,13 @@ I'm currently learning how to manage a stock portfolio in my free time and have 
 Currently, in this first iteration, I'd like this scraper to function like so:
 - [x] Set up Puppeteer script to go to the **Company Announcements** page on PSE Edge
 - [x] Only show results for Dividend Announcements (the "Template Name" is called **Declaration of Cash Dividends**)
-- [ ] Set search results to a specific time (fixed date for now, should change this later so it checks for day-of announcements)
-- [ ] Collect relevant dividend announcement data/content from PSE Edge's news viewer
+- [x] Set search results to a specific time (fixed date for now, should change this later so it checks for day-of announcements)
 - [ ] Run the scraper at the end of a trading day
 - [ ] Compile results and email them to myself
 
 ## Moving Forward
 In a future iteration, I'd like to:
-- Set some sort of database for it so I have historical data to look back on and reference
-- Run the scraper more than once a day.
+- [ ] Collect relevant dividend announcement data/content from PSE Edge's news viewer
+  - More details about the dividend announcement can be accessed by clicking on a popup that shows details like: type of dividend, amount of cash dividend per share, etc.
+- [ ] Set some sort of database for it so I have historical data to look back on and reference
+- [ ] Run the scraper more than once a day.
