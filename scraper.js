@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 async function scrape() {
   // Init browser
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     defaultViewport: null
   });
 
@@ -39,8 +39,6 @@ async function scrape() {
       });
     })
 
-    // console.log(announcementLinks);
-
     const announcementData = [];
 
     if (announcementLinks.length) {
@@ -57,29 +55,26 @@ async function scrape() {
 
         // Table containing dividend information doesn't have an id specified, so we'll use Xpath
 
-        // const testFunc = () => {
-        //   return console.log('hello test');
-        // }
-        // Type of Dividend
-        const [typeTr] = await detailsContent.$x('//th[contains(text(),"Type (Regular or Special)")]/following-sibling::td[1]/descendant::span');
-        const typeVal = await typeTr.evaluate(el => el.textContent);
+        const getCellValue = async (cellLabel) => {
+          const [selectedCell] = await detailsContent.$x(`//th[contains(text(),"${cellLabel}")]/following-sibling::td[1]`);
+          const value = await selectedCell.evaluate(el => el.textContent);
+          return value;
+        };
 
-        // Amount of Cash per Dividend per Share
-        const [amountTr] = await detailsContent.$x('//th[contains(text(),"Amount of Cash Dividend Per Share")]/following-sibling::td[1]/descendant::span');
-        const amountVal = await amountTr.evaluate(el => el.textContent);
-
-        // Payment Date
-        const [paymentTr] = await detailsContent.$x('//th[contains(text(),"Payment Date")]/following-sibling::td[1]/descendant::span');
-        const paymentVal = await paymentTr.evaluate(el => el.textContent);
-
-
-        // testFunc();
+        // Get values for:
+        // Dividend Type, Amount of Cash div per share, record date and payment datae
+        const typeVal = await getCellValue('Type (Regular or Special)');
+        const amountVal = await getCellValue('Amount of Cash Dividend Per Share');
+        const recordVal = await getCellValue('Record Date');
+        const paymentVal = await getCellValue('Payment Date');
+        
         const announcement = {
           'company': company,
           'announcementDate':  announcementDate,
           'type': typeVal,
           'amount': amountVal,
-          'payment': paymentVal
+          'recordDate': recordVal,
+          'paymentDate': paymentVal
         }
         announcementData.push(announcement);
       }
