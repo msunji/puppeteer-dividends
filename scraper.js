@@ -67,7 +67,7 @@ async function scrape() {
         const amountVal = await getCellValue('Amount of Cash Dividend Per Share');
         const recordVal = await getCellValue('Record Date');
         const paymentVal = await getCellValue('Payment Date');
-        
+
         const announcement = {
           'company': company,
           'announcementDate':  announcementDate,
@@ -83,9 +83,9 @@ async function scrape() {
     }
 
     console.log(announcementData);
-    await browser.close();
   } catch (err) {
     console.error(err);
+  } finally {
     await browser.close();
   }
 }
