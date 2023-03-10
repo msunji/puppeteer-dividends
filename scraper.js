@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 async function scrape() {
   // Init browser
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     defaultViewport: null
   });
 
@@ -41,7 +41,30 @@ async function scrape() {
 
     console.log(announcementLinks);
 
-    await browser.close();
+    const announcementData = [];
+
+    if (announcementLinks.length) {
+      for (const link of announcementLinks) {
+        await page.goto(link, { waitUntil: 'domcontentloaded' });
+        await page.waitForSelector('#viewHeader');
+        await page.waitForSelector('#viewBody');
+
+        const company = await page.$eval('#viewHeader h2', elem => elem.innerText);
+        const announcementDate = await page.$eval('#viewHeader p', elem => elem.innerText.split(': ')[1]);
+
+        const announcement = {
+          'company': company,
+          'announcementDate':  announcementDate
+        }
+
+        announcementData.push(announcement);
+      }
+    } else {
+      return console.log('Nothing new to announce')
+    }
+
+    console.log(announcementData);
+    // await browser.close();
   } catch (err) {
     console.error(err);
     await browser.close();
