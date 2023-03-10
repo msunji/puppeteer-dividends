@@ -23,38 +23,24 @@ async function scrape() {
     })
     // Go to search results for dividend announcements given set time
     await page.setDefaultNavigationTimeout(0);
-    await page.goto(process.env.PSE_NEWS, { waitUntil: 'networkidle2' });
+    await page.goto(process.env.PSE_NEWS, { waitUntil: 'domcontentloaded' });
 
     // Get results table text
     await page.waitForSelector('tbody');
 
     // Iterate through each table row and go through each td cell
-    const announcementData = await page.$$eval('tbody tr', rows => {
-      return rows.map(row => {
-        const cells = row.querySelectorAll('td'); // recall that querySelectorAll returns a nodelist NOT an array
-
-        const rowData = {};
-
-        // If no announcements are made, there should only be one cell in one row
-        if (cells.length === 1) {
-          return 'No announcements today.';
-        } else {
-          for (let i = 0; i < cells.length; i++){
-            rowData["companyName"] = cells[0].textContent;
-            rowData["viewerLink"] = `https://edge.pse.com.ph/openDiscViewer.do?edge_no=${cells[1].childNodes[0].getAttribute('onclick').split("'")[1]}`;
-            rowData["formNum"] = cells[2].textContent;
-            rowData["announceDateTime"] = cells[3].textContent;
-            rowData["circNum"] = cells[4].textContent;
-          }
-          return rowData;
-        }
+    const announcementLinks = await page.$$eval('tbody tr', rows => {
+      // Filter rows (must have more than one cell) and then map through cells and get viewer links per row
+      return rows.filter(row => {
+        return row.querySelectorAll('td').length > 1;
+      }).map(row => {
+        const cells = row.querySelectorAll('td');
+        return `https://edge.pse.com.ph/openDiscViewer.do?edge_no=${cells[1].childNodes[0].getAttribute('onclick').split("'")[1]}`;
       });
     })
 
-    console.log(announcementData);
+    console.log(announcementLinks);
 
-    // Parse announcementData
-    // console.log(announcementData[0][0].replace(/<\s*[^>]*>/gi, ''));
     await browser.close();
   } catch (err) {
     console.error(err);
