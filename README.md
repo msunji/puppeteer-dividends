@@ -19,7 +19,7 @@ Currently, in this first iteration, I'd like this scraper to function like so:
     - Record Date
     - Payment Date
 - [ ] Run the scraper at the end of a trading day
-- [ ] Compile results and email them to myself
+- [x] Compile results and email them to me and the folks in my trading group
 
 ## Moving Forward
 In a future iteration, I'd like to:
