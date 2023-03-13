@@ -96,7 +96,3 @@ async function scraper() {
 }
 
 module.exports = scraper;
-
-// // Run function
-// scrape();
-// module.exports = {"sourceData": announcementData }
