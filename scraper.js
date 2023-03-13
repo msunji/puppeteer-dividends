@@ -50,11 +50,14 @@ async function scrape() {
         const company = await page.$eval('#viewHeader h2', elem => elem.innerText);
         const announcementDate = await page.$eval('#viewHeader p', elem => elem.innerText.split(': ')[1]);
 
+        // Target elements in iframe
         const detailsFrame = await page.$('iframe[id="viewContents"]');
         const detailsContent = await detailsFrame.contentFrame();
 
-        // Table containing dividend information doesn't have an id specified, so we'll use Xpath
+        // Get ex-date
+        const exDate = await detailsContent.$eval('#remarkContents span', elem => elem.innerText.split(': ')[1]);
 
+        // Table containing dividend information doesn't have an id specified, so we'll use Xpath
         const getCellValue = async (cellLabel) => {
           const [selectedCell] = await detailsContent.$x(`//th[contains(text(),"${cellLabel}")]/following-sibling::td[1]`);
           const value = await selectedCell.evaluate(el => el.textContent);
@@ -73,6 +76,7 @@ async function scrape() {
           'announcementDate':  announcementDate,
           'type': typeVal,
           'amount': amountVal,
+          'exDate': exDate,
           'recordDate': recordVal,
           'paymentDate': paymentVal
         }
