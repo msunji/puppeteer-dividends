@@ -25,3 +25,6 @@ Currently, in this first iteration, I'd like this scraper to function like so:
 In a future iteration, I'd like to:
 - [ ] Set some sort of database for it so I have historical data to look back on and reference
 - [ ] Run the scraper more than once a day.
+
+## Credit
+- [Responsive HTML Email Template](https://github.com/leemunroe/responsive-html-email-template) - This simplified the email template by a lot. Phew. Who knew HTML email templates were so tedious?
