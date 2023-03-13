@@ -2,12 +2,14 @@ require('dotenv').config();
 const puppeteer = require('puppeteer');
 
 // Puppeteer code starts here
-async function scrape() {
+async function scraper() {
   // Init browser
   const browser = await puppeteer.launch({
     headless: true,
     defaultViewport: null
   });
+
+  let announcementData = [];
 
   try {
     const page = await browser.newPage();
@@ -39,8 +41,6 @@ async function scrape() {
       });
     })
 
-    const announcementData = [];
-
     if (announcementLinks.length) {
       for (const link of announcementLinks) {
         await page.goto(link, { waitUntil: 'domcontentloaded' });
@@ -67,18 +67,18 @@ async function scrape() {
         // Get values for:
         // Dividend Type, Amount of Cash div per share, record date and payment datae
         const typeVal = await getCellValue('Type (Regular or Special)');
-        const amountVal = await getCellValue('Amount of Cash Dividend Per Share');
-        const recordVal = await getCellValue('Record Date');
-        const paymentVal = await getCellValue('Payment Date');
+        const amount = await getCellValue('Amount of Cash Dividend Per Share');
+        const recordDate = await getCellValue('Record Date');
+        const paymentDate = await getCellValue('Payment Date');
 
         const announcement = {
-          'company': company,
-          'announcementDate':  announcementDate,
-          'type': typeVal,
-          'amount': amountVal,
-          'exDate': exDate,
-          'recordDate': recordVal,
-          'paymentDate': paymentVal
+          company,
+          announcementDate,
+          typeVal,
+          amount,
+          exDate,
+          recordDate,
+          paymentDate
         }
         announcementData.push(announcement);
       }
@@ -87,6 +87,7 @@ async function scrape() {
     }
 
     console.log(announcementData);
+    return announcementData;
   } catch (err) {
     console.error(err);
   } finally {
@@ -94,5 +95,8 @@ async function scrape() {
   }
 }
 
-// Run function
-scrape();
+module.exports = scraper;
+
+// // Run function
+// scrape();
+// module.exports = {"sourceData": announcementData }
