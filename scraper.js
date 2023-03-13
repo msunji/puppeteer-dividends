@@ -85,8 +85,7 @@ async function scraper() {
     } else {
       return console.log('Nothing new to announce');
     }
-
-    console.log(announcementData);
+    // console.log(announcementData);
     return announcementData;
   } catch (err) {
     console.error(err);
