@@ -1,7 +1,11 @@
 const scraper = require('./scraper.js');
+const sendEmail = require('./sendEmail');
 
-// scraper().then(
-//   console.log(data)
-// )
-
-scraper();
+scraper()
+  .then(
+  data => {
+    sendEmail(data)
+  })
+  .catch(
+    console.error
+  )
