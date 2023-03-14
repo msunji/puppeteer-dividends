@@ -24,10 +24,14 @@ function sendEmail(dataObj) {
   // Pass the data to the handlebars template
   const msgBody = (template({ "data": dataObj }));
 
+  // Get list of recipients
+  const recipientList = process.env.RECIPIENT_EMAILS.split(",");
+
   // Send mail!
   transporter.sendMail({
     from: `Marge Consunji <${process.env.SENDER_EMAIL}>`,
-    to: process.env.SENDER_EMAIL,
+    to: recipientList,
+    // to: 'mae.sunji@gmail.com',
     subject: "Dividend Updates",
     text: "These are today's updates",
     html: msgBody
