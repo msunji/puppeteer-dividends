@@ -7,7 +7,7 @@ I'm currently learning how to manage a stock portfolio in my free time and have 
 Currently, in this first iteration, I'd like this scraper to function like so:
 - [x] Set up Puppeteer script to go to the **Company Announcements** page on PSE Edge
 - [x] Only show results for Dividend Announcements (the "Template Name" is called **Declaration of Cash Dividends**)
-- [ ] Set search results to a specific time (fixed date for now, should change this later so it checks for day-of announcements)
+- [x] Set search results to a specific time (fixed date for now, should change this later so it checks for day-of announcements)
 - [x] Collect relevant dividend announcement data/content from PSE Edge's news viewer
   - More details about the dividend announcement can be accessed by clicking on a popup that shows details like: type of dividend, amount of cash dividend per share, etc.
   - Data that needs to be collected are:
