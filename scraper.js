@@ -9,6 +9,11 @@ async function scraper() {
     defaultViewport: null
   });
 
+  // Get today's date in this format: MM-DD-YYYY
+  // This gets passed as a param to the URL we pass to Puppeteer
+  let dateTodayArr = new Date().toISOString().slice(0,10).split('-');
+  let parsedDateToday = [...dateTodayArr.slice(1), dateTodayArr[0]].join('-');
+
   let announcementData = [];
 
   try {
@@ -23,9 +28,10 @@ async function scraper() {
         req.continue();
       }
     })
+
     // Go to search results for dividend announcements given set time
     await page.setDefaultNavigationTimeout(0);
-    await page.goto(process.env.PSE_NEWS, { waitUntil: 'domcontentloaded' });
+    await page.goto(`${process.env.PSE_NEWS}&fromDate=${parsedDateToday}&toDate=${parsedDateToday}`, { waitUntil: 'domcontentloaded' });
 
     // Get results table text
     await page.waitForSelector('tbody');
