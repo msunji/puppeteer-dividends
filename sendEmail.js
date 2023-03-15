@@ -33,8 +33,8 @@ function sendEmail(announcementArr) {
     // Send mail!
     transporter.sendMail({
       from: `Marge Consunji <${process.env.SENDER_EMAIL}>`,
-      // to: recipientList,
-      to: 'mae.sunji@gmail.com',
+      to: recipientList,
+      // to: 'mae.sunji@gmail.com',
       subject: "PSE Dividend Updates",
       text: "Good afternoon. Here are today's PSE Dividend Announcements.",
       html: msgBody
@@ -45,8 +45,6 @@ function sendEmail(announcementArr) {
       return console.log('Email sent: ' + info.messageId);
     })
   }
-
-
 }
 
 module.exports = sendEmail;
