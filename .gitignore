@@ -13,4 +13,4 @@
 .env.production.local
 
 # Email testing related files
-./templates/*.handlebars.json
+templates/*.handlebars.json
