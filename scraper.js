@@ -20,6 +20,7 @@ async function scraper() {
     const page = await browser.newPage();
 
     // Abort requests for images on PSE Edge
+    // We don't need images, so best not to wait for them to load
     await page.setRequestInterception(true);
     page.on('request', req => {
       if (req.resourceType() === 'image') {
@@ -30,15 +31,17 @@ async function scraper() {
     })
 
     // Go to search results for dividend announcements given set time
+    // Pass the parsed date today as MM-DD-YYYY
     await page.setDefaultNavigationTimeout(0);
     await page.goto(`${process.env.PSE_NEWS}&fromDate=${parsedDateToday}&toDate=${parsedDateToday}`, { waitUntil: 'domcontentloaded' });
 
-    // Get results table text
+    // Wait for tbody element to load
     await page.waitForSelector('tbody');
 
     // Iterate through each table row and go through each td cell
     const announcementLinks = await page.$$eval('tbody tr', rows => {
       // Filter rows (must have more than one cell) and then map through cells and get viewer links per row
+      // Filter rows that only have one cell -> days with no cash dividend announcements
       return rows.filter(row => {
         return row.querySelectorAll('td').length > 1;
       }).map(row => {
@@ -89,7 +92,8 @@ async function scraper() {
         announcementData.push(announcement);
       }
     } else {
-      return console.log('Nothing new to announce');
+      console.log('Nothing new to report');
+      return announcementData;
     }
     // console.log(announcementData);
     return announcementData;
