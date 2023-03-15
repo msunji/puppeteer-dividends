@@ -2,9 +2,12 @@
 A web scraper built with Puppeteer and Node.js that routinely checks Philippine Stock Market (PSE) Edge for any dividend announcements.
 
 ## What is this for?
-I'm currently learning how to manage a stock portfolio in my free time and have been wanting to keep track of companies making cash dividend announcements. Instead of having to manually check PSE Edge everyday, I decided I'd write a simple tool to scrape this data at a set time during the week and have the data sent to me through email.
+This tool helps keep track of PSE cash dividend announcements. Instead of having to manually check the PSE Edge Company Announcements page daily, this tool scrapes the page for relevant announcements and sends the results through email.
 
-Currently, in this first iteration, I'd like this scraper to function like so:
+Announcements are generally made on weekdays and during trading hours - often in the afternoon, from what I've noticed. As such, the script is run around the end of trading hours.
+
+## V1 Notes
+In the first iteration, I'd like this scraper to function like so:
 - [x] Set up Puppeteer script to go to the **Company Announcements** page on PSE Edge
 - [x] Only show results for Dividend Announcements (the "Template Name" is called **Declaration of Cash Dividends**)
 - [x] Set search results to a specific time (fixed date for now, should change this later so it checks for day-of announcements)
@@ -18,13 +21,15 @@ Currently, in this first iteration, I'd like this scraper to function like so:
     - Ex-Date
     - Record Date
     - Payment Date
-- [ ] Run the scraper at the end of a trading day
-- [x] Compile results and email them to me and the folks in my trading group
+- [x] Run the scraper at the end of a trading day
+  - **Note:** At this point, I run the script myself in the afternoon. In V2, I'd like to turn this into a cron job and have it run on weekdays at a set time.
+- [x] Compile results and email them to myself and the investor relation division.
 
-## Moving Forward
-In a future iteration, I'd like to:
-- [ ] Set some sort of database for it so I have historical data to look back on and reference
-- [ ] Run the scraper more than once a day.
+## Moving Forward: V2
+In V2, this should:
+- [ ] Set up a database for the data
+- [ ] Send out alerts to recipients when ex-date approaches (t-1 day)
+- [ ] Run scraper as a cron job
 
 ## Credit
 - [Responsive HTML Email Template](https://github.com/leemunroe/responsive-html-email-template) - This simplified the email template by a lot. Phew. Who knew HTML email templates were so tedious?
