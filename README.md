@@ -31,5 +31,7 @@ In V2, this should:
 - [ ] Send out alerts to recipients when ex-date approaches (t-1 day)
 - [ ] Run scraper as a cron job
 
-## Credit
+## Credit/Resources
+I learned a lot doing this project and found these really helpful.
 - [Responsive HTML Email Template](https://github.com/leemunroe/responsive-html-email-template) - This simplified the email template by a lot. Phew. Who knew HTML email templates were so tedious?
+- [crontab guru](https://crontab.guru/) - Helps you write cron schedule expressions
