@@ -14,3 +14,10 @@
 
 # Email testing related files
 templates/*.handlebars.json
+
+# Logs
+firebase-debug.log
+
+# Firebase
+.firebase
+.firebaserc
