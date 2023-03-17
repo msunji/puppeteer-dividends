@@ -1,0 +1,40 @@
+{
+  "data":[
+    {
+      "company":"Nickel Asia Corporation",
+      "announcementDate":"Mar 14, 2023",
+      "typeVal":"Regular",
+      "amount":"Regular cash dividends at the rate of PhP0.17 per common share",
+      "exDate":"Mar 24, 2023",
+      "recordDate":"Mar 29, 2023",
+      "paymentDate":"Apr 12, 2023"
+    },
+    {
+      "company":"Ionics, Inc.",
+      "announcementDate":"Mar 14, 2023",
+      "typeVal":"N/A",
+      "amount":"P0.10 per share",
+      "exDate":"Mar 23, 2023",
+      "recordDate":"Mar 28, 2023",
+      "paymentDate":"Apr 25, 2023"
+    },
+    {
+      "company":"Jollibee Foods Corporation",
+      "announcementDate":"Mar 14, 2023",
+      "typeVal":"Regular",
+      "amount":"Php10.60125 per share for Series B preferred shares",
+      "exDate":"Mar 24, 2023",
+      "recordDate":"Mar 29, 2023",
+      "paymentDate":"Apr 14, 2023"
+    },
+    {
+      "company":"Jollibee Foods Corporation",
+      "announcementDate":"Mar 14, 2023",
+      "typeVal":"Regular",
+      "amount":"Php8.20525 per share for Series A preferred shares",
+      "exDate":"Mar 24, 2023",
+      "recordDate":"Mar 29, 2023",
+      "paymentDate":"Apr 14, 2023"
+    }
+  ]
+}
