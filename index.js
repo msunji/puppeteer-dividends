@@ -1,3 +1,4 @@
+const { EventEmitter } = require('puppeteer');
 const scraper = require('./scraper.js');
 const sendEmail = require('./sendEmail');
 
@@ -6,6 +7,7 @@ scraper()
   data => {
     sendEmail(data)
   })
-  .catch(
-    console.error
+  .catch((err) => {
+    console.error(err)
+  }
   )
