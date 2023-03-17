@@ -1,5 +1,4 @@
 const functions = require("firebase-functions");
-require("dotenv").config();
 const scraper = require("./scraper.js");
 const sendemail = require("./sendemail.js");
 
