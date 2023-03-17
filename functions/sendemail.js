@@ -31,13 +31,12 @@ function sendemail(announcementArr) {
     const msgBody = (template({"data": announcementArr}));
 
     // Get list of recipients
-
+    const recipientList = process.env.RECIPIENT_EMAILS.split(",");
 
     // Send mail!
     transporter.sendMail({
       from: `Marge Consunji <${process.env.SENDER_EMAIL}>`,
-      // to: recipientList,
-      to: "mae.sunji@gmail.com",
+      to: recipientList,
       subject: "PSE Dividend Updates",
       text: "Good afternoon. Here are today's PSE Dividend Announcements.",
       html: msgBody,
