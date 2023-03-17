@@ -1,4 +1,3 @@
-const { EventEmitter } = require('puppeteer');
 const scraper = require('./scraper.js');
 const sendEmail = require('./sendEmail');
 
