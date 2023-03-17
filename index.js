@@ -1,10 +1,10 @@
-const scraper = require('./scraper.js');
-const sendEmail = require('./sendEmail');
+const scraper = require('./functions/scraper');
+const sendemail = require('./functions/sendemail');
 
 scraper()
   .then(
   data => {
-    sendEmail(data);
+    sendemail(data);
   })
   .catch((err) => {
     console.error(err);
