@@ -1,8 +1,19 @@
 const functions = require("firebase-functions");
+require("dotenv").config();
+const scraper = require("./scraper.js");
+const sendemail = require("./sendemail.js");
 
 exports.runCronJob = functions
     .pubsub.schedule("35 16 * * 1-5")
     .timeZone("Asia/Taipei")
     .onRun(() => {
-      return console.log("This runs at 16.35 Monday to Friday");
+      scraper()
+          .then(
+              (data) => {
+                sendemail(data);
+              })
+          .catch((err) => {
+            console.error(err);
+          });
+      return null;
     });
