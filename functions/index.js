@@ -3,7 +3,7 @@ const scraper = require("./scraper.js");
 const sendemail = require("./sendemail.js");
 
 exports.runCronJob = functions
-    .pubsub.schedule("35 16 * * 1-5")
+    .pubsub.schedule("48 16 * * 1-5")
     .timeZone("Asia/Taipei")
     .onRun(() => {
       scraper()
