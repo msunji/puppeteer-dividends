@@ -4,9 +4,8 @@ const sendEmail = require('./sendEmail');
 scraper()
   .then(
   data => {
-    sendEmail(data)
+    sendEmail(data);
   })
   .catch((err) => {
-    console.error(err)
-  }
-  )
+    console.error(err);
+  })
