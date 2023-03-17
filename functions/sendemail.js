@@ -6,7 +6,7 @@ const path = require("path");
 
 // Get email template from templates directory
 const emailTemplate = fs.readFileSync(
-    path.join(__dirname, "../templates/email.handlebars"), "utf-8",
+    path.join(__dirname, "./templates/email.handlebars"), "utf-8",
 );
 
 // eslint-disable-next-line require-jsdoc
