@@ -1,5 +1,5 @@
-const scraper = require('./scraper.js');
-const sendEmail = require('./sendEmail');
+const scraper = require('./scraper/scraper.js');
+const sendEmail = require('./utils/sendEmail.js');
 
 scraper()
   .then(

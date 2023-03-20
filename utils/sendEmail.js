@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Get email template from templates directory
-const emailTemplate = fs.readFileSync(path.join(__dirname, '/templates/email.handlebars'), 'utf-8');
+const emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/email.handlebars'), 'utf-8');
 
 function sendEmail(announcementArr) {
   // Set up transporter object
@@ -33,8 +33,8 @@ function sendEmail(announcementArr) {
     // Send mail!
     transporter.sendMail({
       from: `Marge Consunji <${process.env.SENDER_EMAIL}>`,
-      to: recipientList,
-      // to: 'mae.sunji@gmail.com',
+      // to: recipientList,
+      to: 'mae.sunji@gmail.com',
       subject: "PSE Dividend Updates",
       text: "Good afternoon. Here are today's PSE Dividend Announcements.",
       html: msgBody
