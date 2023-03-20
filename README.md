@@ -33,3 +33,4 @@ In V2, this should:
 
 ## Credit
 - [Responsive HTML Email Template](https://github.com/leemunroe/responsive-html-email-template) - This simplified the email template by a lot. Phew. Who knew HTML email templates were so tedious?
+- [crontab guru](https://crontab.guru/) - A really easy to use editor for cron schedule expressions
